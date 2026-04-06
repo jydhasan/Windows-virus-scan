@@ -462,3 +462,279 @@ sc qc ServiceName
 ✔ Malware detection practice lab
 
 সব structured করে দিতে পারি 😎
+
+Linux-এ Windows-এর মতোই তুমি **services, processes, network, malware/suspicious activity** check করতে পারো—তবে commands আলাদা 🔥
+আমি তোমাকে **practical command cheat-sheet** দিচ্ছি যাতে তুমি store করে ব্যবহার করতে পারো 👇
+
+---
+
+# 🧾 🔹 1. Services / Daemons Check
+
+## Running services list:
+
+```bash id="l1"
+systemctl list-units --type=service --state=running
+```
+
+## All services:
+
+```bash id="l2"
+systemctl list-units --type=service --all
+```
+
+## Specific service status:
+
+```bash id="l3"
+systemctl status nginx
+```
+
+## Enable/Disable service:
+
+```bash id="l4"
+sudo systemctl enable service_name
+sudo systemctl disable service_name
+```
+
+---
+
+# ⚙️ 🔹 2. Process Monitoring
+
+## All running processes:
+
+```bash id="l5"
+ps aux
+```
+
+## Live monitoring:
+
+```bash id="l6"
+top
+```
+
+👉 আরও advanced:
+
+```bash id="l7"
+htop
+```
+
+(install লাগতে পারে)
+
+---
+
+## Process by name:
+
+```bash id="l8"
+ps aux | grep nginx
+```
+
+## Kill process:
+
+```bash id="l9"
+kill -9 PID
+```
+
+---
+
+# 🌐 🔹 3. Network / Connections
+
+## Active connections:
+
+```bash id="l10"
+netstat -tulnp
+```
+
+## Alternative:
+
+```bash id="l11"
+ss -tulnp
+```
+
+👉 দেখাবে:
+
+* Port
+* PID
+* Service
+
+---
+
+## Specific port check:
+
+```bash id="l12"
+ss -tulnp | grep :80
+```
+
+---
+
+# 📂 🔹 4. File & Service Binary Location
+
+## Process executable path:
+
+```bash id="l13"
+ls -l /proc/PID/exe
+```
+
+👉 কোন file run করছে বুঝবে
+
+---
+
+# 👤 🔹 5. Users & Permissions
+
+## Users list:
+
+```bash id="l14"
+cat /etc/passwd
+```
+
+## Logged in users:
+
+```bash id="l15"
+who
+```
+
+---
+
+# 🧠 🔹 6. Startup Services
+
+```bash id="l16"
+systemctl list-unit-files --type=service
+```
+
+👉 enabled services দেখাবে (auto start)
+
+---
+
+# 🔐 🔹 7. Firewall Check
+
+👉 Tool: ufw
+
+```bash id="l17"
+sudo ufw status
+```
+
+👉 or iptables:
+
+```bash id="l18"
+sudo iptables -L -n -v
+```
+
+---
+
+# 🧪 🔹 8. Suspicious Activity / Malware Check
+
+## Running unknown process:
+
+```bash id="l19"
+ps aux
+```
+
+## Network suspicious connection:
+
+```bash id="l20"
+ss -tulnp
+```
+
+## Check cron jobs (malware persistence):
+
+```bash id="l21"
+crontab -l
+```
+
+## System cron:
+
+```bash id="l22"
+cat /etc/crontab
+```
+
+---
+
+# 🛠️ 🔹 9. Advanced Tools
+
+* chkrootkit
+* rkhunter
+* fail2ban
+
+---
+
+## Run rootkit scan:
+
+```bash id="l23"
+sudo chkrootkit
+```
+
+```bash id="l24"
+sudo rkhunter --check
+```
+
+---
+
+# 📊 🔥 Quick Audit Workflow (Linux)
+
+তুমি এই sequence follow করো:
+
+1. Services check
+
+```bash
+systemctl list-units --type=service --state=running
+```
+
+2. Processes check
+
+```bash
+ps aux
+```
+
+3. Network connections
+
+```bash
+ss -tulnp
+```
+
+4. Cron jobs
+
+```bash
+crontab -l
+```
+
+5. Firewall
+
+```bash
+sudo ufw status
+```
+
+6. Malware scan
+
+```bash
+sudo rkhunter --check
+```
+
+---
+
+# ⚠️ Suspicious Indicators
+
+* Unknown service running
+* Process from `/tmp` or unusual path
+* High CPU without reason
+* Unknown port open
+* Strange cron job
+* External IP connection
+
+---
+
+# 🚀 Summary
+
+Linux-এ তুমি মূলত 4টা জিনিস monitor করবে:
+
+* Services → `systemctl`
+* Processes → `ps/top`
+* Network → `ss/netstat`
+* Security → `ufw + rkhunter`
+
+---
+
+👉 চাইলে আমি তোমাকে
+✔ Linux IT audit checklist
+✔ Real server hardening setup
+✔ Malware detection lab (practical)
+
+step-by-step করে শিখিয়ে দিতে পারি 😎
+
